@@ -1,10 +1,20 @@
-FROM node:14
+# Use the official Node.js image
+FROM node:18
 
-WORKDIR /app
+# Set the working directory
+WORKDIR /usr/src/app
 
-COPY package.json ./
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
+# Copy the rest of the application code
 COPY . .
 
+# Expose the port
+EXPOSE 5000
+
+# Start the application
 CMD ["node", "server.js"]

@@ -1,11 +1,32 @@
 version: '3'
 services:
-  backend:
-    build: ./backend
-    ports:
-      - '5000:5000'
-    env_file: ./backend/.env
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
     ports:
-      - '3000:3000'
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - finamu-network
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    networks:
+      - finamu-network
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/finamu
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27018:27017"
+    networks:
+      - finamu-network
+
+networks:
+  finamu-network:
+    driver: bridge
