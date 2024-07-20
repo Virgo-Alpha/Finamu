@@ -1,0 +1,35 @@
+.impact-section {
+    padding: 5%;
+    background-color: #6c757d!important;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .impact-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 30%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  .impact-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .impact-container {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+  

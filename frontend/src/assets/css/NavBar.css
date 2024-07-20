@@ -1,0 +1,22 @@
+.bg-purple {
+  background-color: #800080; /* Replace with your desired purple color */
+}
+
+.navbar .btn {
+  background-color: #007bff; /* Button background color */
+  border-color: #007bff; /* Button border color */
+  color: #fff; /* Button text color */
+}
+
+.navbar .btn:hover {
+  background-color: #0056b3; /* Button hover background color */
+  border-color: #0056b3; /* Button hover border color */
+}
+
+.logo-text {
+  font-size: 1.5rem; /* Adjust logo text size */
+}
+
+.navbar .nav-item {
+  margin-left: 10px; /* Adjust spacing between nav items */
+}

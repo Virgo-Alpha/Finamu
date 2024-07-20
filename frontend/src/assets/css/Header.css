@@ -1,0 +1,23 @@
+.header {
+  position: relative;
+  text-align: center;
+  color: rgb(9, 76, 98);
+}
+  
+.header-img {
+  width: 100%;
+  height: auto;
+  /* transform: rotate(-5deg); Adjust the angle as needed */
+  filter: brightness(50%); /* Adjust the darkness level as needed */
+}
+  
+.header-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 70px;
+  transform: translate(-50%, -50%);
+  color:yellow;
+}
+
+  

@@ -26,6 +26,13 @@ const connectDB = async () => {
 
 connectDB().catch(console.error);
 
+app.use(express.static(path.join(__dirname, 'frontend/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+});
+
+
 app.use('/api/users', userRoutes);
 
 // Init Middleware
