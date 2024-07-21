@@ -1,0 +1,70 @@
+/* ContactUs.css */
+.contact-us-section {
+    padding: 50px 0;
+  }
+  
+  .contact-us-section h3 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .contact-us-section .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .contact-us-section input,
+  .contact-us-section textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .contact-us-section input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+    width: 100%;
+  }
+  
+  .contact-us-section input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  .contact-us-section .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .contact-us-section .row {
+    width: 100%;
+  }
+  
+  .contact-us-section .col-md-8, .contact-us-section .col-lg-8 {
+    max-width: 600px; /* Adjust the max width as needed */
+    width: 100%;
+  }
+  
+  footer {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  
+
+  form {
+    background-color: #284b63;
+    width: 100%;
+    margin: auto;
+    padding: 50px;
+    color: #000000;
+}
+  
