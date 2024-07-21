@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../assets/css/Register.css';
 
@@ -14,16 +15,21 @@ const Register = () => {
   });
 
   const { firstName, lastName, email, phoneNumber, password } = formData;
+  const navigate = useNavigate();
 
   const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/auth/register', formData);
+      console.log('Sending request to /auth/register', formData);
+      const res = await axios.post('auth/register', formData);
+      console.log('Response from /auth/register', res.data);
       console.log(res.data);
+      navigate('/login');
     } catch (err) {
       console.error(err.response.data);
+      navigate('/contact');
     }
   };
 

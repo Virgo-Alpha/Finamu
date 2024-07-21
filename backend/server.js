@@ -7,6 +7,7 @@ const passport = require('passport');
 const authRoutes = require('./routes/auth');
 require('./config/passport')(passport);
 const userRoutes = require('./routes/userRoutes');
+const path = require('path');
 
 dotenv.config();
 
@@ -45,9 +46,9 @@ connectDB().catch(console.error);
 
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+// });
 
 // Routes
 app.use('/auth', authRoutes);
