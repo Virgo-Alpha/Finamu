@@ -8,6 +8,7 @@ const ImpactMetrics = () => {
   return (
     <section id="impact" className="impact-section">
       <div className="container">
+        <h3>Our Impact so far:</h3>
         <div className="impact-container">
           <img src={jobImage} alt="Jobs Created" className="impact-image" />
           <p>1000+ jobs created</p>
