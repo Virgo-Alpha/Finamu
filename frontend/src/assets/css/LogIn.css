@@ -1,0 +1,35 @@
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: black;
+}
+
+.card {
+  background-color: #f8f8f8;
+  border: none;
+  width: 100%;
+  max-width: 400px;
+}
+
+.cardHeader {
+  background-color: white;
+  text-align: center;
+}
+
+.cardBody {
+  padding: 20px;
+}
+
+.formControl {
+  margin-bottom: 15px;
+}
+
+.btnBlock {
+  width: 100%;
+}
+
+.textCenter {
+  text-align: center;
+}

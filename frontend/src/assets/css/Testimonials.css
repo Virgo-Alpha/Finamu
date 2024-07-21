@@ -29,6 +29,7 @@
   .speech-bubble {
     position: relative;
     background: #f0f0f0;
+    color: black;
     border-radius: .4em;
     padding: 20px;
     margin: 10px;

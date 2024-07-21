@@ -1,0 +1,39 @@
+body {
+    background-color: black; /* Change the background color here */
+  }
+  
+  .register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .card {
+    background-color: #f8f8f8;
+    border: none;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .card-header {
+    background-color: white;
+    text-align: center;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .form-control {
+    margin-bottom: 15px;
+  }
+  
+  .btn-block {
+    width: 100%;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  

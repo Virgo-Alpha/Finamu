@@ -1,45 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Register
 router.post('/register', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { firstName, lastName, email, phoneNumber, password } = req.body;
   try {
-    let user = await User.findOne({ email });
-    if (user) {
-      return res.status(400).json({ msg: 'User already exists' });
-    }
-    user = new User({ name, email, password });
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(password, salt);
-    await user.save();
-    res.send('User registered');
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    const newUser = new User({ firstName, lastName, email, phoneNumber, password });
+    await newUser.save();
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 });
 
-// Login
-router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    let user = await User.findOne({ email });
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) return next(err);
     if (!user) {
-      return res.status(400).json({ msg: 'Invalid credentials' });
+      return res.status(400).json({ message: 'Invalid email or password' });
     }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ msg: 'Invalid credentials' });
-    }
-    res.send('User logged in');
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
-  }
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      return res.json({ message: 'Logged in successfully', user });
+    });
+  })(req, res, next);
 });
 
 module.exports = router;
