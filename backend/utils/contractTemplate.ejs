@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Investment Contract</title>
+</head>
+<body>
+  <h1>Investment Contract</h1>
+  <p>Film Project: <%= project.name %></p>
+  <p>Description: <%= project.description %></p>
+  <p>Filmmaker: <%= filmmaker.firstName %> <%= filmmaker.lastName %></p>
+  <p>ID/Passport Number: <%= filmmaker.idNumber %></p>
+  <p>Investor: <%= investor.name %></p>
+  <p>ID/Passport Number: <%= investor.idNumber %></p>
+  <p>Investment Amount: <%= investor.investmentAmount %></p>
+  <p>Return on Investment: <%= project.smartContractDetails.roi %>%</p>
+  <p>Expected ROI Date: <%= project.smartContractDetails.dateOfRoi.toDateString() %></p>
+  <p>In case of project failure: <%= project.smartContractDetails.flopPlan %></p>
+</body>
+</html>

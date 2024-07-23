@@ -50,6 +50,19 @@
 
 Ensure you have [Node.js](https://nodejs.org/) (version 14 or higher) and [npm](https://www.npmjs.com/) installed on your machine.
 
+### Run the Docker Container
+To run both the FE and BE in a Docker container, run the command:
+
+```bash
+sudo docker-compose up --build
+```
+
+This will build the images and start the containers for the frontend and backend. Later, you can just run:
+
+```bash 
+sudo docker-compose up -d
+```
+
 ### Frontend Setup
 
 1. **Clone the repository**:
