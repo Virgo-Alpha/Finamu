@@ -50,6 +50,42 @@
 
 Ensure you have [Node.js](https://nodejs.org/) (version 14 or higher) and [npm](https://www.npmjs.com/) installed on your machine.
 
+#### Install libraries
+Got to the backend folder then:
+
+1. Install Truffle and Ganache:
+```bash
+npm install -g truffle
+npm install -g ganache-cli
+```
+
+2. Initialize a Truffle Project:
+```bash
+truffle init
+```
+
+2. Install more depenndencies:
+```bash
+npm init -y
+npm install dotenv web3
+```
+
+#### Compiling and Deploy the Smart Contract
+1. Start Ganache (for local testing):
+```bash
+ganache-cli
+```
+
+2. Compile the Contract:
+```bash
+truffle compile
+```
+
+3. Deploy the Contract:
+```bash
+truffle migrate --network development
+```
+
 ### Run the Docker Container
 To run both the FE and BE in a Docker container, run the command:
 
