@@ -67,36 +67,8 @@ truffle init
 2. Install more depenndencies:
 ```bash
 npm init -y
-npm install dotenv web3
-```
+npm install dotenv web3 jwt-decode
 
-#### Compiling and Deploy the Smart Contract
-1. Start Ganache (for local testing):
-```bash
-ganache-cli
-```
-
-2. Compile the Contract:
-```bash
-truffle compile
-```
-
-3. Deploy the Contract:
-```bash
-truffle migrate --network development
-```
-
-### Run the Docker Container
-To run both the FE and BE in a Docker container, run the command:
-
-```bash
-sudo docker-compose up --build
-```
-
-This will build the images and start the containers for the frontend and backend. Later, you can just run:
-
-```bash 
-sudo docker-compose up -d
 ```
 
 ### Frontend Setup
@@ -150,6 +122,35 @@ sudo docker-compose up -d
 ## Usage
 
 Visit `http://localhost:3000` in your web browser to access the frontend application. The backend server will run on `http://localhost:5000`.
+
+### Run the Docker Container
+To run both the FE and BE in a Docker container, run the command:
+
+```bash
+sudo docker-compose up --build
+```
+
+This will build the images and start the containers for the frontend and backend. Later, you can just run:
+
+```bash 
+sudo docker-compose up -d
+```
+
+#### Compiling and Deploy the Smart Contract
+1. Start Ganache (for local testing):
+```bash
+ganache-cli
+```
+
+2. Compile the Contract:
+```bash
+truffle compile
+```
+
+3. Deploy the Contract:
+```bash
+truffle migrate --network development
+```
 
 ## API Documentation
 

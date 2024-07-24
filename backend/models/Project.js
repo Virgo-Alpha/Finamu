@@ -10,6 +10,21 @@ const projectSchema = new mongoose.Schema({
   numberOfTokens: { type: Number, required: true },
   projectStartDate: { type: Date, required: true },
   projectEndDate: { type: Date, required: true },
+  country: {
+    type: String,
+    required: true,
+  },
+  tags: [String], // Array of tags for search and categorization
+  filmmaker: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ['draft', 'public', 'private'],
+    default: 'draft',
+  },
   contributionDetails: {
     type: {
       bankAccount: { type: String, default: null },

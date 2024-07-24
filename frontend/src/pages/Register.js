@@ -26,10 +26,10 @@ const Register = () => {
       const res = await axios.post('auth/register', formData);
       console.log('Response from /auth/register', res.data);
       console.log(res.data);
-      navigate('/login');
+      navigate('/dashboard');
     } catch (err) {
       console.error(err.response.data);
-      navigate('/contact');
+      navigate('/register');
     }
   };
 

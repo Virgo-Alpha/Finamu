@@ -21,10 +21,11 @@ const Login = () => {
     try {
       const res = await axios.post('/auth/login', formData);
       console.log(res.data);
-      history('/'); // Redirect to a dashboard or another page upon successful login
+      history('/dashboard'); // Redirect to a dashboard or another page upon successful login
     } catch (err) {
       console.error(err.response.data);
-      history('/contact');
+      // ! Check this functionality
+      history('/register'); // Redirect to a register page if login fails
     }
   };
 
