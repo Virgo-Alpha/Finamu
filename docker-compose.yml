@@ -18,7 +18,7 @@ services:
     networks:
       - finamu-network
     environment:
-      - MONGO_URI=mongodb://mongo:27017/finamu
+      - MONGO_URI=mongodb://mongo:27018/finamu
 
   mongo:
     image: mongo:latest

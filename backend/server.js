@@ -31,20 +31,22 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+// Connect to MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
+    mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
     console.log('MongoDB Connected...');
   } catch (err) {
     console.error(err.message);
-    process.exit(1);
+    process.exit(1); // Exit the process with failure code
   }
 };
 
-connectDB().catch(console.error);
+// Connect to the database
+connectDB();
 
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
