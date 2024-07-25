@@ -1,3 +1,4 @@
+// controllers/projectController.js
 const Project = require('../models/Project');
 const { createProjectTokens } = require('../blockchain/tokenize');
 const generateContract = require('../utils/contractTemplate');
@@ -20,7 +21,7 @@ const createProject = async (req, res) => {
 
 const getProjects = async (req, res) => {
   try {
-    const projects = await Project.find();
+    const projects = await Project.find({ status: 'public' });
     res.status(200).json(projects);
   } catch (error) {
     res.status(500).json({ error: error.message });

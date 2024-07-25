@@ -1,30 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/projects').then((response) => {
-      setProjects(response.data);
-    });
+    const fetchProjects = async () => {
+      try {
+        const res = await axios.get('/api/projects/public');
+        console.log(res.data);
+        setProjects(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchProjects();
   }, []);
 
   return (
-    <div className="projects-list">
-      <h2>Available Projects</h2>
-      <div className="search-and-filters">
-        {/* Add search bar and filters here */}
-      </div>
+    <div>
+      <h1>Public Projects</h1>
       <ul>
         {projects.map((project) => (
           <li key={project._id}>
-            <Link to={`/project/${project._id}`}>
-              <h3>{project.name}</h3>
-              <p>{project.description}</p>
-              <p>Country: {project.country}</p>
-            </Link>
+            <h2>{project.name}</h2>
+            <p>{project.description}</p>
+            <p>Risk: {project.risk}</p>
           </li>
         ))}
       </ul>
