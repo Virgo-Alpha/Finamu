@@ -1,5 +1,5 @@
 const express = require('express');
-const { createProject, getProjects } = require('../controllers/projectController');
+const { createProject, getProjects, updateProject, getPublicProjects } = require('../controllers/projectController');
 const Project = require('../models/Project'); // Model import
 const router = express.Router();
 
@@ -41,5 +41,9 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+router.put('/:id', updateProject);
+router.get('/', getProjects); // Get all projects for the current user
+router.get('/public', getPublicProjects); // Get all public projects
 
 module.exports = router;

@@ -1,48 +1,92 @@
 // CreateProject.js (Frontend - React Component)
 import React, { useState } from 'react';
 import axios from 'axios';
+import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
+import ProjectForm from '../components/ProjectForm';
+import '../assets/css/CreateProject.css';
 
 const CreateProject = () => {
   const [projectData, setProjectData] = useState({
+    poster: '',
     name: '',
     description: '',
+    progress: '',
     targetAmount: '',
+    smallestTokenAmount: '',
+    numberOfTokens: '',
     country: '',
-    // Additional fields as needed
+    projectStartDate: '',
+    projectEndDate: '',
+    tags: [],
+    filmmaker: '',
+    status: 'draft',
+    contributionDetails: {
+      type: '',
+      accountName: '',
+      accountNumber: '',
+      swiftCode: '',
+      phoneNumber: '',
+    },
+    contractAddress: '',
+    smartContractDetails: {
+      payoutDate: '',
+      percentagePaidOut: '',
+      flopPlan: '',
+    },
+    risk: 'low',
   });
 
   const handleChange = (e) => {
-    setProjectData({ ...projectData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setProjectData(prevState => ({
+      ...prevState,
+      [name]: value,
+      contributionDetails: {
+        ...prevState.contributionDetails,
+        [name.split('.').slice(-1)[0]]: value, // Dynamic field handling
+      },
+      smartContractDetails: {
+        ...prevState.smartContractDetails,
+        [name.split('.').slice(-1)[0]]: value, // Dynamic field handling
+      }
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleContributionTypeChange = (e) => {
+    setProjectData({
+      ...projectData,
+      contributionDetails: {
+        ...projectData.contributionDetails,
+        type: e.target.value,
+      }
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post('/api/projects', projectData).then((response) => {
+    try {
+      const response = await axios.post('/api/projects', projectData);
       console.log('Project created:', response.data);
       // Redirect to project page or dashboard
-    });
+    } catch (error) {
+      console.error('Error creating project:', error);
+    }
   };
 
   return (
     <div className="create-project">
-      <h2>Create a New Project</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Project Name</label>
-        <input name="name" value={projectData.name} onChange={handleChange} />
-        
-        <label>Description</label>
-        <textarea name="description" value={projectData.description} onChange={handleChange} />
-
-        <label>Target Amount</label>
-        <input name="targetAmount" value={projectData.targetAmount} onChange={handleChange} />
-
-        <label>Country</label>
-        <input name="country" value={projectData.country} onChange={handleChange} />
-        
-        {/* Additional form fields */}
-
-        <button type="submit">Create Project</button>
-      </form>
+      <NavBar />
+      <div className="content">
+        <h2>Create a New Project</h2>
+        <ProjectForm
+          projectData={projectData}
+          handleChange={handleChange}
+          handleContributionTypeChange={handleContributionTypeChange}
+          handleSubmit={handleSubmit}
+        />
+      </div>
+      <Footer />
     </div>
   );
 };

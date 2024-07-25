@@ -1,5 +1,26 @@
 const mongoose = require('mongoose');
 
+const contributionDetailsSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ['bank', 'mpesa', 'juice'],
+    required: true,
+  },
+  details: {
+    accountName: { type: String },
+    accountNumber: { type: String },
+    swiftCode: { type: String },
+    phoneNumber: { type: String },
+  },
+}, { _id: false });
+
+const smartContractDetailsSchema = new mongoose.Schema({
+  payoutDate: { type: Date, required: true },
+  percentagePaidOut: { type: Number, min: 0, max: 100, required: true },
+  flopPlan: { type: String },
+}, { _id: false });
+
+
 const projectSchema = new mongoose.Schema({
   poster: { type: String, default: null },
   name: { type: String, required: true },
@@ -14,16 +35,9 @@ const projectSchema = new mongoose.Schema({
   tags: [String], // Array of tags for search and categorization
   filmmaker: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   status: { type: String, enum: ['draft', 'public', 'private'], default: 'draft' },
-  contributionDetails: {
-    bankAccount: { type: String, default: null },
-    mobileMoney: { type: String, default: null },
-    paypal: { type: String, default: null },
-  },
-  smartContractDetails: {
-    roi: { type: Number, required: true },
-    dateOfRoi: { type: Date, required: true },
-    flopPlan: { type: String, required: true },
-  },
+  contributionDetails: contributionDetailsSchema,
+  contractAddress: { type: String, default: '' }, // Smart contract address
+  smartContractDetails: smartContractDetailsSchema,
   risk: { type: String, enum: ['low', 'medium', 'high'], required: true },
 });
 

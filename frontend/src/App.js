@@ -24,7 +24,7 @@ function App() {
         <Route path="/login" element={<LogIn />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<Projects />} />
-        <Route path="/projects/create" element={<PrivateRoute element={<CreateProject />} />} />
+        <Route path="/projects/create" element={<CreateProject />} />
         <Route path="/projects/:id" element={<ProjectDetail />} />
         <Route path="/invest/:projectId" element={<PrivateRoute element={<Investment />} />} />
       </Routes>

@@ -1,0 +1,66 @@
+/* CreateProject.css */
+
+body {
+  background-color: white; /* Background color of the page */
+}
+h2 {
+    padding: 0 50px;
+}
+
+.create-project-container {
+  color: white; /* Text color */
+}
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  background-color: #f8f8f8;
+  border: none;
+  width: 100%;
+  max-width: 500px; /* Adjust the width as needed */
+  border-radius: 8px; /* Rounded corners */
+  overflow: hidden;
+}
+
+.card-header {
+  background-color: #343a40;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 1.5rem;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.form-control {
+  margin-bottom: 15px;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .form-row .form-group {
+    flex: 1;
+    margin-right: 15px;
+  }
+  
+  .form-row .form-group:last-child {
+    margin-right: 0;
+  }
