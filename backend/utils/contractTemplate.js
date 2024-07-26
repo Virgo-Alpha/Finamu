@@ -2,7 +2,7 @@ const ejs = require('ejs');
 const fs = require('fs');
 const path = require('path');
 
-const templatePath = path.join(__dirname, 'contractTemplate.ejs');
+const templatePath = path.join(__dirname, '../templates/contractTemplate.ejs');
 
 const generateContract = (project, filmmaker, investor) => {
   const data = {

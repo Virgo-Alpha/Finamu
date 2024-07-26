@@ -4,7 +4,7 @@ const Project = require('../models/Project'); // Model import
 const router = express.Router();
 
 // Route to create a new project
-router.post('/', createProject);
+router.post('/create', createProject);
 
 // Route to get all public projects
 router.get('/public', async (req, res) => {

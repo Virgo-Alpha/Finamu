@@ -1,6 +1,8 @@
 // ProjectForm.js
 import React from 'react';
 
+// ! Check the Project model and add validation to this form for int fields
+
 const ProjectForm = ({ projectData, handleChange, handleContributionTypeChange, handleSubmit }) => {
   return (
     <form onSubmit={handleSubmit}>
@@ -51,7 +53,7 @@ const ProjectForm = ({ projectData, handleChange, handleContributionTypeChange, 
           name="smallestTokenAmount"
           value={projectData.smallestTokenAmount}
           onChange={handleChange}
-          min="0" // Optional: ensures no negative values
+          min="10" // Optional: ensures no negative values
         />
       </div>
 
@@ -76,8 +78,22 @@ const ProjectForm = ({ projectData, handleChange, handleContributionTypeChange, 
       {/* Tags */}
       <div className="form-group">
         <label>Tags</label>
-        <input className="form-control" name="tags" value={projectData.tags} onChange={handleChange} placeholder="Separate tags with commas" />
+        <div className="checkbox-group">
+          {['drama', 'crime', 'mystery', 'romance', 'documentary', 'rom-com', 'politics', 'war', 'other'].map(tag => (
+            <div key={tag}>
+              <input
+                type="checkbox"
+                name="tags"
+                value={tag}
+                checked={projectData.tags.includes(tag)}
+                onChange={handleChange}
+              />
+              <label>{tag}</label>
+            </div>
+          ))}
+        </div>
       </div>
+      <br></br>
 
       {/* Status */}
       <div className="form-group">
@@ -94,7 +110,7 @@ const ProjectForm = ({ projectData, handleChange, handleContributionTypeChange, 
         <label>Contribution Type</label>
         <select
           className="form-control"
-          name="contributionType"
+          name="contributionDetails.type"
           value={projectData.contributionDetails.type}
           onChange={handleContributionTypeChange}
         >
@@ -119,7 +135,7 @@ const ProjectForm = ({ projectData, handleChange, handleContributionTypeChange, 
           <div className="form-group">
             <label>Account Number</label>
             <input
-              type="text"
+              type="number"
               className="form-control"
               name="contributionDetails.accountNumber"
               value={projectData.contributionDetails.accountNumber}
@@ -142,7 +158,7 @@ const ProjectForm = ({ projectData, handleChange, handleContributionTypeChange, 
         <div className="form-group">
           <label>Phone Number</label>
           <input
-            type="text"
+            type="number"
             className="form-control"
             name="contributionDetails.phoneNumber"
             value={projectData.contributionDetails.phoneNumber}

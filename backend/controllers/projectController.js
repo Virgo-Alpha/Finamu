@@ -1,19 +1,40 @@
-// controllers/projectController.js
 const Project = require('../models/Project');
 const { createProjectTokens } = require('../blockchain/tokenize');
 const generateContract = require('../utils/contractTemplate');
 const { deployProjectContract } = require('../blockchain/deploy');
 
 const createProject = async (req, res) => {
+  console.log("We got here man")
   try {
-    const { name, description, targetAmount, startDate, endDate, isPublic, isDraft } = req.body;
-    const filmmakerId = req.user._id; // Assuming user is authenticated
+    const {
+      poster,
+      name,
+      description,
+      progress,
+      targetAmount,
+      smallestTokenAmount,
+      numberOfTokens,
+      country,
+      projectStartDate,
+      projectEndDate,
+      tags,
+      filmmakerId,
+      // contractAddress,
+      status,
+      contributionDetails,
+      smartContractDetails,
+      risk,
+    } = req.body;
+    // ! const filmmakerId = req.user._id; // Assuming user is authenticated
+    console.log("we got your data: " + JSON.stringify(req.body, null, 2))
+    console.dir(req.body, { depth: null });
 
     let contractAddress = '';
-    if (isPublic) {
-      // Deploy smart contract
-      contractAddress = await deployProjectContract(targetAmount, startDate, endDate);
-    }
+    // if (status === 'public') {
+    //   // Deploy smart contract if the project is being made public
+    //   contractAddress = await deployProjectContract(targetAmount, projectStartDate, projectEndDate);
+    // }
+    console.log('contract address: ' + contractAddress)
 
     const project = new Project({
       poster,
@@ -27,7 +48,6 @@ const createProject = async (req, res) => {
       projectStartDate,
       projectEndDate,
       tags,
-      isDraft,
       filmmaker: filmmakerId,
       contractAddress,
       status,
@@ -36,12 +56,15 @@ const createProject = async (req, res) => {
       risk,
     });
 
-    await project.save();
+    await project.save()
+    console.log("We saved the project")
 
-    await createProjectTokens(project._id, project.targetAmount, project.smallestTokenAmount, project.projectStartDate, project.projectEndDate);
+    // Create project tokens
+    // await createProjectTokens(project._id, targetAmount, smallestTokenAmount, projectStartDate, projectEndDate);
 
-    const contract = await generateContract(project, req.user, req.body.investor);
-    // Save or send contract to the user
+    // Generate contract
+    // const contract = await generateContract(project, req.user, req.body.investor);
+    // Save or send the contract to the user (implementation depends on the requirements)
 
     res.status(201).json({ message: 'Project created successfully', project });
   } catch (error) {
@@ -52,22 +75,49 @@ const createProject = async (req, res) => {
 const updateProject = async (req, res) => {
   try {
     const projectId = req.params.id;
-    const { name, description, targetAmount, startDate, endDate, isPublic, isDraft } = req.body;
+    const {
+      poster,
+      name,
+      description,
+      progress,
+      targetAmount,
+      smallestTokenAmount,
+      numberOfTokens,
+      country,
+      projectStartDate,
+      projectEndDate,
+      tags,
+      isDraft,
+      status,
+      contributionDetails,
+      smartContractDetails,
+      risk,
+    } = req.body;
 
     const project = await Project.findById(projectId);
 
-    if (isPublic && !project.contractAddress) {
-      // Deploy smart contract if not already done
-      project.contractAddress = await deployProjectContract(targetAmount, startDate, endDate);
+    if (status === 'public' && !project.contractAddress) {
+      // Deploy smart contract if not already done and project is being made public
+      project.contractAddress = await deployProjectContract(targetAmount, projectStartDate, projectEndDate);
     }
 
+    // Update fields
+    project.poster = poster;
     project.name = name;
     project.description = description;
+    project.progress = progress;
     project.targetAmount = targetAmount;
-    project.startDate = startDate;
-    project.endDate = endDate;
-    project.isPublic = isPublic;
+    project.smallestTokenAmount = smallestTokenAmount;
+    project.numberOfTokens = numberOfTokens;
+    project.country = country;
+    project.projectStartDate = projectStartDate;
+    project.projectEndDate = projectEndDate;
+    project.tags = tags;
     project.isDraft = isDraft;
+    project.status = status;
+    project.contributionDetails = contributionDetails;
+    project.smartContractDetails = smartContractDetails;
+    project.risk = risk;
 
     await project.save();
     res.status(200).json({ message: 'Project updated successfully', project });
@@ -88,7 +138,7 @@ const getProjects = async (req, res) => {
 
 const getPublicProjects = async (req, res) => {
   try {
-    const projects = await Project.find({ isPublic: true });
+    const projects = await Project.find({ status: 'public' });
     res.status(200).json(projects);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching public projects', error });

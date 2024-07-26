@@ -1,5 +1,5 @@
-// CreateProject.js (Frontend - React Component)
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -14,7 +14,7 @@ const CreateProject = () => {
     progress: '',
     targetAmount: '',
     smallestTokenAmount: '',
-    numberOfTokens: '',
+    // numberOfTokens: 1234,
     country: '',
     projectStartDate: '',
     projectEndDate: '',
@@ -39,40 +39,46 @@ const CreateProject = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name.startsWith('contributionDetails.') || name.startsWith('smartContractDetails.')) {
+      const [section, field] = name.split('.');
+      setProjectData(prevState => ({
+        ...prevState,
+        [section]: {
+          ...prevState[section],
+          [field]: value
+        }
+      }));
+    } else {
+      setProjectData(prevState => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleContributionTypeChange = (e) => {
     setProjectData(prevState => ({
       ...prevState,
-      [name]: value,
       contributionDetails: {
         ...prevState.contributionDetails,
-        [name.split('.').slice(-1)[0]]: value, // Dynamic field handling
-      },
-      smartContractDetails: {
-        ...prevState.smartContractDetails,
-        [name.split('.').slice(-1)[0]]: value, // Dynamic field handling
+        type: e.target.value,
       }
     }));
   };
 
-  const handleContributionTypeChange = (e) => {
-    setProjectData({
-      ...projectData,
-      contributionDetails: {
-        ...projectData.contributionDetails,
-        type: e.target.value,
-      }
-    });
-  };
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/projects', projectData);
-      console.log('Project created:', response.data);
-      // Redirect to project page or dashboard
+      const result = await axios.post('/api/projects/create', projectData);
+      console.log('Project created:', result);
+      navigate('/');
     } catch (error) {
-      console.error('Error creating project:', error);
+      console.error('Error response data:', error.response.data);
+      navigate('/projects/create');
     }
-  };
+  };  
 
   return (
     <div className="create-project">

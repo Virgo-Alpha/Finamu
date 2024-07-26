@@ -1,25 +1,27 @@
 const mongoose = require('mongoose');
 
+// TODO: 1. Add amount contributed
+// Amount pending will be the target minus amount contributed
+// TODO 2: Make Poster an image upload
+// TODO 3. Make contract and tokens
+
 const contributionDetailsSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: ['bank', 'mpesa', 'juice'],
     required: true,
   },
-  details: {
-    accountName: { type: String },
-    accountNumber: { type: String },
-    swiftCode: { type: String },
-    phoneNumber: { type: String },
-  },
+  accountName: { type: String, default: null }, // Required for 'bank' type
+  accountNumber: { type: String, default: null }, // Required for 'bank' type
+  swiftCode: { type: String, default: null }, // Required for 'bank' type
+  phoneNumber: { type: String, default: null }, // Required for 'mpesa' or 'juice' types
 }, { _id: false });
 
 const smartContractDetailsSchema = new mongoose.Schema({
   payoutDate: { type: Date, required: true },
   percentagePaidOut: { type: Number, min: 0, max: 100, required: true },
-  flopPlan: { type: String },
+  flopPlan: { type: String, default: '' },
 }, { _id: false });
-
 
 const projectSchema = new mongoose.Schema({
   poster: { type: String, default: null },
@@ -28,12 +30,16 @@ const projectSchema = new mongoose.Schema({
   progress: { type: String, default: null },
   targetAmount: { type: Number, required: true },
   smallestTokenAmount: { type: Number, required: true, min: 10 },
-  numberOfTokens: { type: Number, required: true },
+  numberOfTokens: { type: Number , default: 1},
   projectStartDate: { type: Date, required: true },
   projectEndDate: { type: Date, required: true },
   country: { type: String, required: true },
-  tags: [String], // Array of tags for search and categorization
-  filmmaker: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  tags: {
+    type: [String],
+    validate: [tags => tags.length <= 15, 'A maximum of 15 tags are allowed.']
+  }, // Array of tags with a maximum of 15 items
+  // filmmaker: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  filmmaker: { type: String },
   status: { type: String, enum: ['draft', 'public', 'private'], default: 'draft' },
   contributionDetails: contributionDetailsSchema,
   contractAddress: { type: String, default: '' }, // Smart contract address
@@ -41,6 +47,7 @@ const projectSchema = new mongoose.Schema({
   risk: { type: String, enum: ['low', 'medium', 'high'], required: true },
 });
 
+// Hook to automatically calculate the number of tokens
 projectSchema.pre('validate', function (next) {
   if (this.isNew || this.isModified('targetAmount') || this.isModified('smallestTokenAmount')) {
     this.numberOfTokens = Math.ceil(this.targetAmount / this.smallestTokenAmount / 10) * 10;
