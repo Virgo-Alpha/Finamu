@@ -5,9 +5,9 @@ const { deployProjectContract } = require('../blockchain/deploy');
 
 const createProject = async (req, res) => {
   console.log("We got here man")
+  poster = req.file.path;
   try {
     const {
-      poster,
       name,
       description,
       progress,
@@ -26,8 +26,8 @@ const createProject = async (req, res) => {
       risk,
     } = req.body;
     // ! const filmmakerId = req.user._id; // Assuming user is authenticated
-    console.log("we got your data: " + JSON.stringify(req.body, null, 2))
     console.dir(req.body, { depth: null });
+    console.log("Poster: " + poster)
 
     let contractAddress = '';
     // if (status === 'public') {
@@ -55,6 +55,7 @@ const createProject = async (req, res) => {
       smartContractDetails,
       risk,
     });
+    console.log("We created the project")
 
     await project.save()
     console.log("We saved the project")

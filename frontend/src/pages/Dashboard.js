@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import NavBar from '../components/NavBar';
+import NavBar from '../components/SignedInNav';
 import Footer from '../components/Footer';
-import '../assets/css/Dashboard.css'; // Import the CSS file for styling
+import '../assets/css/Dashboard.css';
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -13,12 +13,12 @@ const Dashboard = () => {
     country: []
   });
 
-  // Sample list of countries; you can replace this with actual data
   const countries = ['Nigeria', 'Kenya', 'South Africa', 'Ghana', 'Egypt'];
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+        // Send filters as query parameters
         const response = await axios.get('/api/projects/public', { params: filters });
         setProjects(response.data);
       } catch (error) {
@@ -36,9 +36,10 @@ const Dashboard = () => {
       } else {
         newFilters[section].push(value);
       }
+      console.log('Updated Filters:', newFilters);
       return newFilters;
     });
-  };
+  };  
 
   const handleClearFilters = () => {
     setFilters({
@@ -101,32 +102,35 @@ const Dashboard = () => {
       </div>
       <div className="projects">
         <h1>Projects ({projects.length})</h1>
-        {projects.map((project) => (
-          <div key={project._id} className="project-item">
-            <div className="project-poster">
-              {/* Placeholder for poster image */}
-              <img src={project.poster || '/default-poster.png'} alt={project.name} />
-            </div>
-            <div className="project-details">
-              <h2>{project.name} by {project.filmmaker}</h2>
-              <p>{project.description}</p>
-              <p className="project-tags">
-                {project.tags.map(tag => (
-                  <span key={tag} className="tag">{tag}</span>
-                ))}
-              </p>
-              <hr></hr>
-            </div>
-            <div className="project-info">
-              <p>Target: {project.targetAmount}</p>
-              <p>Days left to deadline: {calculateDaysLeft(project.projectEndDate)}</p>
-              <p>Amount contributed: {project.amountContributed || 'N/A'}</p>
-              <p>Amount Pending: {project.amountPending || 'N/A'}</p>
-              <p>Project Country: {project.country}</p>
-            </div>
-          </div>
-        ))}
+        <div className="project-list">
+          {projects.map((project) => {
+            return (
+              <div key={project._id} className="project-item">
+                <div className="project-poster">
+                  <img src={`http://localhost:5000/${project.poster}`} alt={project.name} />
+                </div>
+                <div className="project-details">
+                <Link to={`/projects/${project._id}`}><h2>{project.name} by {project.filmmaker}</h2></Link>
+                  <p>{project.description}</p>
+                  <p className="project-tags">
+                    {project.tags.map(tag => (
+                      <span key={tag} className="tag">{tag}</span>
+                    ))}
+                  </p>
+                </div>
+                <div className="project-info">
+                  <p>Target: {project.targetAmount}</p>
+                  <p>Days left to deadline: {calculateDaysLeft(project.projectEndDate)}</p>
+                  <p>Amount contributed: {project.amountContributed || 'N/A'}</p>
+                  <p>Risk: {project.risk}</p>
+                  <p>Country: {project.country}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };

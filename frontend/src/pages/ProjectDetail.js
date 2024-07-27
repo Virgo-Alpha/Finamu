@@ -1,26 +1,40 @@
-// ProjectDetail.js (Frontend - React Component)
-import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import NavBar from '../components/SignedInNav';
+import '../assets/css/ProjectDetail.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProjectDetail = () => {
   const { id } = useParams();
-  const [project, setProject] = useState({});
+  const [project, setProject] = useState(null);
 
   useEffect(() => {
-    axios.get(`/api/projects/${id}`).then((response) => {
-      setProject(response.data);
-    });
+    const fetchProject = async () => {
+      try {
+        const response = await axios.get(`/api/projects/${id}`);
+        setProject(response.data.project);
+      } catch (error) {
+        console.error('Error fetching project details:', error);
+      }
+    };
+    fetchProject();
   }, [id]);
 
+  if (!project) return <p>Loading...</p>;
+
   return (
-    <div className="project-detail">
-      <h2>{project.name}</h2>
-      <p>{project.description}</p>
-      <p>Target Amount: {project.targetAmount}</p>
-      <p>Country: {project.country}</p>
-      {/* More project details */}
-      <button>Invest</button> {/* Redirect to the investment page */}
+    <div className="container">
+      <NavBar />
+      <div className="project-detail">
+        <img src={`http://localhost:5000/${project.poster}`} alt={project.name} className="img-fluid" style={{ width: '100%' }} />
+        <h1>{project.name} <small>by {project.filmmaker}</small></h1>
+        <div className="description-header">
+          <h3 style={{ display: 'inline', fontWeight: 'bold', textDecoration: 'underline' }}>Description</h3>
+          <button className="btn btn-primary float-end">Invest</button>
+        </div>
+        <p>{project.description}</p>
+      </div>
     </div>
   );
 };

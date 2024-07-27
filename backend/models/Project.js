@@ -29,8 +29,7 @@ const projectSchema = new mongoose.Schema({
   description: { type: String, required: true, maxlength: 1000 },
   progress: { type: String, default: null },
   targetAmount: { type: Number, required: true },
-  smallestTokenAmount: { type: Number, required: true, min: 10 },
-  numberOfTokens: { type: Number , default: 1},
+  smallestTokenAmount: { type: Number, min: 10 },
   projectStartDate: { type: Date, required: true },
   projectEndDate: { type: Date, required: true },
   country: { type: String, required: true },
@@ -51,6 +50,14 @@ const projectSchema = new mongoose.Schema({
 projectSchema.pre('validate', function (next) {
   if (this.isNew || this.isModified('targetAmount') || this.isModified('smallestTokenAmount')) {
     this.numberOfTokens = Math.ceil(this.targetAmount / this.smallestTokenAmount / 10) * 10;
+
+    console.log('Number of tokens: ' + this.targetAmount);
+    console.log('Smallest token amount: ' + this.smallestTokenAmount);
+    console.log('Target Amount: ' + this.targetAmount)
+
+    console.log('Type of targetAmount:', typeof this.targetAmount);
+    console.log('Type of smallestTokenAmount:', typeof this.smallestTokenAmount);
+
   }
   next();
 });

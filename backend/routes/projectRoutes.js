@@ -2,14 +2,29 @@ const express = require('express');
 const { createProject, getProjects, updateProject, getPublicProjects } = require('../controllers/projectController');
 const Project = require('../models/Project'); // Model import
 const router = express.Router();
+const upload = require('../middleware/upload');
 
 // Route to create a new project
-router.post('/create', createProject);
+router.post('/create', upload.single('poster'), createProject);
 
 // Route to get all public projects
 router.get('/public', async (req, res) => {
   try {
-    const publicProjects = await Project.find({ status: 'public' });
+    const { risk, tags, country } = req.query;
+
+    const filterCriteria = { status: 'public' };
+
+    if (risk) {
+      filterCriteria.risk = { $in: risk };
+    }
+    if (tags) {
+      filterCriteria.tags = { $in: tags };
+    }
+    if (country) {
+      filterCriteria.country = { $in: country };
+    }
+
+    const publicProjects = await Project.find(filterCriteria);
     res.json(publicProjects);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -39,6 +54,15 @@ router.get('/', async (req, res) => {
     res.json(projects);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    res.json({ project });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

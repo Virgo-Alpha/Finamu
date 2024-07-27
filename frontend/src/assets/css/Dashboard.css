@@ -1,15 +1,15 @@
 .dashboard {
     background-color: black;
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 0.5fr 5fr;
     gap: 20px;
-    padding: 20px;
     padding-top: 70px;
   }
   
   .filters {
     border-right: 1px solid #ddd;
     padding-right: 20px;
+    overflow-y: auto; /* Allow vertical scrolling */
   }
   
   .filter-section {
@@ -26,18 +26,31 @@
   
   .projects {
     padding-left: 20px;
+    overflow-y: auto; /* Allow vertical scrolling */
+  }
+  
+  .project-list {
+    display: flex;
+    flex-direction: column;
   }
   
   .project-item {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    gap: 20px;
+    grid-template-columns: 2fr 3fr 1fr;
     margin-bottom: 20px;
+    border-bottom: 1px solid #ddd; /* Line after each project */
+    padding: 50px;
   }
   
   .project-poster img {
-    max-width: 100%;
-    height: auto;
+    background: 0 0 no-repeat;
+    background-size: 100% 100%;
+    content: "";
+    display: block;
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 100%;
   }
   
   .project-details h2 {
@@ -46,7 +59,7 @@
   }
   
   .project-details p {
-    margin: 5px 0;
+    padding-top: 10%;
   }
   
   .project-tags {
@@ -65,5 +78,15 @@
   
   .project-info p {
     margin: 5px 0;
+  }
+
+  .project-poster img {
+    padding-right: 40px;
+    max-height: 750px;
+  }
+
+  footer {
+    grid-column: 1 / -1;
+    width: 100%;
   }
   

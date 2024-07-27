@@ -3,13 +3,13 @@ import React from 'react';
 
 // ! Check the Project model and add validation to this form for int fields
 
-const ProjectForm = ({ projectData, handleChange, handleContributionTypeChange, handleSubmit }) => {
+const ProjectForm = ({ projectData, handleChange, handleContributionTypeChange, handleSubmit, handleFileChange }) => {
   return (
     <form onSubmit={handleSubmit}>
       {/* Poster URL */}
       <div className="form-group">
-        <label>Poster URL</label>
-        <input className="form-control" name="poster" value={projectData.poster} onChange={handleChange} />
+        <label>Project Poster</label>
+        <input type="file" className="form-control" onChange={handleFileChange} />
       </div>
 
       {/* Project Name */}

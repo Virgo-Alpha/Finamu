@@ -14,7 +14,6 @@ const CreateProject = () => {
     progress: '',
     targetAmount: '',
     smallestTokenAmount: '',
-    // numberOfTokens: 1234,
     country: '',
     projectStartDate: '',
     projectEndDate: '',
@@ -56,6 +55,10 @@ const CreateProject = () => {
     }
   };
 
+  const handleFileChange = (e) => {
+    setProjectData({ ...projectData, poster: e.target.files[0] });
+  };
+
   const handleContributionTypeChange = (e) => {
     setProjectData(prevState => ({
       ...prevState,
@@ -70,15 +73,45 @@ const CreateProject = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', projectData.name);
+    formData.append('description', projectData.description);
+    formData.append('targetAmount', projectData.targetAmount);
+    formData.append('smallestTokenAmount', projectData.smallestTokenAmount);
+    formData.append('country', projectData.country);
+    formData.append('projectStartDate', projectData.projectStartDate);
+    formData.append('projectEndDate', projectData.projectEndDate);
+    formData.append('tags', projectData.tags);
+    formData.append('filmmaker', projectData.filmmaker);
+    formData.append('status', projectData.status);
+    formData.append('risk', projectData.risk);
+    // Sending each part of the object separately
+    formData.append('contributionDetails[type]', projectData.contributionDetails.type);
+    formData.append('contributionDetails[accountName]', projectData.contributionDetails.accountName);
+    formData.append('contributionDetails[accountNumber]', projectData.contributionDetails.accountNumber);
+    formData.append('contributionDetails[swiftCode]', projectData.contributionDetails.swiftCode);
+    formData.append('contributionDetails[phoneNumber]', projectData.contributionDetails.phoneNumber);
+
+    formData.append('smartContractDetails[payoutDate]', projectData.smartContractDetails.payoutDate);
+    formData.append('smartContractDetails[percentagePaidOut]', projectData.smartContractDetails.percentagePaidOut);
+    formData.append('smartContractDetails[flopPlan]', projectData.smartContractDetails.flopPlan);
+    if (projectData.poster) {
+      formData.append('poster', projectData.poster);
+    }
     try {
-      const result = await axios.post('/api/projects/create', projectData);
-      console.log('Project created:', result);
-      navigate('/');
+      const response = await axios.post('/api/projects/create', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('Project created:', response.data);
+      navigate('/dashboard');
     } catch (error) {
-      console.error('Error response data:', error.response.data);
+      console.error('Error creating project:', error);
       navigate('/projects/create');
     }
-  };  
+  };
+    
 
   return (
     <div className="create-project">
@@ -90,6 +123,7 @@ const CreateProject = () => {
           handleChange={handleChange}
           handleContributionTypeChange={handleContributionTypeChange}
           handleSubmit={handleSubmit}
+          handleFileChange={handleFileChange}
         />
       </div>
       <Footer />
