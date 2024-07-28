@@ -1,10 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/css/NavBar.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 // ! Make faq, my investments page, 
 
 const NavBar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      // Send request to the server to log out
+      await axios.post('/api/auth/logout');
+      // Redirect to the home page or login page
+      navigate('/');
+    } catch (error) {
+      console.error('Error during logout', error);
+    }
+  };
+
   return (
     <header className="bg-purple py-2 fixed-top">
       <div className="container-fluid d-flex justify-content-between align-items-center">
@@ -14,7 +29,7 @@ const NavBar = () => {
           <li><Link to="/projects/create" className="btn btn-primary mx-1">Create Project</Link></li>
           <li><Link to="/faq" className="btn btn-primary mx-1">FAQs</Link></li>
           <li><Link to="/contact" className="btn btn-primary mx-1">Contact Us</Link></li>
-          <li><Link to="/" className="btn btn-primary mx-1">Log Out</Link></li>
+          <li><button onClick={handleLogout} className="btn btn-primary mx-1">Log Out</button></li>
         </ul>
       </div>
     </header>

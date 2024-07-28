@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import NavBar from '../components/NavBar';
+import NavBar from '../components/SignedInNav';
 import Footer from '../components/Footer';
 import ProjectForm from '../components/ProjectForm';
 import '../assets/css/CreateProject.css';
@@ -18,7 +18,6 @@ const CreateProject = () => {
     projectStartDate: '',
     projectEndDate: '',
     tags: [],
-    filmmaker: '',
     status: 'draft',
     contributionDetails: {
       type: '',
@@ -82,7 +81,6 @@ const CreateProject = () => {
     formData.append('projectStartDate', projectData.projectStartDate);
     formData.append('projectEndDate', projectData.projectEndDate);
     formData.append('tags', projectData.tags);
-    formData.append('filmmaker', projectData.filmmaker);
     formData.append('status', projectData.status);
     formData.append('risk', projectData.risk);
     // Sending each part of the object separately
@@ -107,8 +105,12 @@ const CreateProject = () => {
       console.log('Project created:', response.data);
       navigate('/dashboard');
     } catch (error) {
-      console.error('Error creating project:', error);
-      navigate('/projects/create');
+      if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+        alert('You are not logged in or do not have access. Please log in to continue.');
+        navigate('/login');
+      } else {
+        console.error('Error fetching projects:', error);
+      }
     }
   };
     

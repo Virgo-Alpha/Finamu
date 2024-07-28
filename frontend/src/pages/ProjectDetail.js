@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import NavBar from '../components/SignedInNav';
@@ -28,10 +28,10 @@ const ProjectDetail = () => {
       <NavBar />
       <div className="project-detail">
         <img src={`http://localhost:5000/${project.poster}`} alt={project.name} className="img-fluid" style={{ width: '100%' }} />
-        <h1>{project.name} <small>by {project.filmmaker}</small></h1>
+        <h1>{project.name} <small>by {project.filmmaker.firstName} {project.filmmaker.lastName}</small></h1>
         <div className="description-header">
           <h3 style={{ display: 'inline', fontWeight: 'bold', textDecoration: 'underline' }}>Description</h3>
-          <button className="btn btn-primary float-end">Invest</button>
+          <Link to={`/projects/${id}/invest`} className="btn btn-primary float-end">Invest</Link>
         </div>
         <p>{project.description}</p>
       </div>

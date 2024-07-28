@@ -9,7 +9,6 @@ const Footer = () => {
         <div className="footer-nav-container">
           <ul className="footer-nav">
           <li><Link to="/register">Join Us</Link></li>
-            <li><a href="#blog">Blog</a></li>
             <li><Link to="/contact">Contact Us</Link></li>
           </ul>
         </div>

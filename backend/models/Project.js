@@ -37,8 +37,8 @@ const projectSchema = new mongoose.Schema({
     type: [String],
     validate: [tags => tags.length <= 15, 'A maximum of 15 tags are allowed.']
   }, // Array of tags with a maximum of 15 items
-  // filmmaker: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  filmmaker: { type: String },
+  filmmaker: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  // filmmaker: { type: String },
   status: { type: String, enum: ['draft', 'public', 'private'], default: 'draft' },
   contributionDetails: contributionDetailsSchema,
   contractAddress: { type: String, default: '' }, // Smart contract address

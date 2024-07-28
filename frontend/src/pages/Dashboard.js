@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from '../components/SignedInNav';
 import Footer from '../components/Footer';
 import '../assets/css/Dashboard.css';
+import Cookies from 'js-cookie';
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
+  const navigate = useNavigate();
   const [filters, setFilters] = useState({
     risk: [],
     tags: [],
@@ -22,7 +24,12 @@ const Dashboard = () => {
         const response = await axios.get('/api/projects/public', { params: filters });
         setProjects(response.data);
       } catch (error) {
-        console.error('Error fetching projects:', error);
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+          alert('You are not logged in or do not have access. Please log in to continue.');
+          navigate('/login');
+        } else {
+          console.error('Error fetching projects:', error);
+        }
       }
     };
     fetchProjects();
@@ -104,13 +111,14 @@ const Dashboard = () => {
         <h1>Projects ({projects.length})</h1>
         <div className="project-list">
           {projects.map((project) => {
+            const filmmakerName = project.filmmaker ? `${project.filmmaker.firstName} ${project.filmmaker.lastName}` : 'Unknown Filmmaker';
             return (
               <div key={project._id} className="project-item">
                 <div className="project-poster">
                   <img src={`http://localhost:5000/${project.poster}`} alt={project.name} />
                 </div>
                 <div className="project-details">
-                <Link to={`/projects/${project._id}`}><h2>{project.name} by {project.filmmaker}</h2></Link>
+                <Link to={`/projects/${project._id}`}><h2>{project.name} by {filmmakerName}</h2></Link>
                   <p>{project.description}</p>
                   <p className="project-tags">
                     {project.tags.map(tag => (

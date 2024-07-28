@@ -10,6 +10,7 @@ require('./config/passport')(passport);
 const userRoutes = require('./routes/userRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 // Init Middleware
 app.use(express.json({ extended: false }));
@@ -60,7 +62,7 @@ app.use('/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
 // Define Routes
-app.use('/api/auth', require('./routes/auth'));
+app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 
 const PORT = process.env.PORT || 5000;

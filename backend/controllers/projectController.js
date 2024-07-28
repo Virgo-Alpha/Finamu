@@ -18,22 +18,25 @@ const createProject = async (req, res) => {
       projectStartDate,
       projectEndDate,
       tags,
-      filmmakerId,
+      // filmmaker,
       // contractAddress,
       status,
       contributionDetails,
       smartContractDetails,
       risk,
     } = req.body;
-    // ! const filmmakerId = req.user._id; // Assuming user is authenticated
+    console.dir(req.session, { depth: null });
+    const filmmakerId = req.session.userId; // Assuming user is authenticated - Authenticate user
+    console.log("filmmakerId: " + filmmakerId)
+
     console.dir(req.body, { depth: null });
     console.log("Poster: " + poster)
 
     let contractAddress = '';
-    // if (status === 'public') {
-    //   // Deploy smart contract if the project is being made public
-    //   contractAddress = await deployProjectContract(targetAmount, projectStartDate, projectEndDate);
-    // }
+    if (status === 'public') {
+      // Deploy smart contract if the project is being made public
+      contractAddress = await deployProjectContract(targetAmount, projectStartDate, projectEndDate);
+    }
     console.log('contract address: ' + contractAddress)
 
     const project = new Project({
@@ -48,7 +51,7 @@ const createProject = async (req, res) => {
       projectStartDate,
       projectEndDate,
       tags,
-      filmmaker: filmmakerId,
+      filmmaker : filmmakerId,
       contractAddress,
       status,
       contributionDetails,
@@ -60,7 +63,7 @@ const createProject = async (req, res) => {
     await project.save()
     console.log("We saved the project")
 
-    // Create project tokens
+    // ! Create project tokens
     // await createProjectTokens(project._id, targetAmount, smallestTokenAmount, projectStartDate, projectEndDate);
 
     // Generate contract
@@ -95,7 +98,7 @@ const updateProject = async (req, res) => {
       risk,
     } = req.body;
 
-    const project = await Project.findById(projectId);
+    const project = await Project.findById(projectId).populate('filmmaker', 'firstName lastName');
 
     if (status === 'public' && !project.contractAddress) {
       // Deploy smart contract if not already done and project is being made public

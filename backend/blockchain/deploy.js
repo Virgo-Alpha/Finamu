@@ -1,17 +1,30 @@
-const { exec } = require('child_process');
+const { execFile } = require('child_process');
 const path = require('path');
 const fs = require('fs');
+const { spawn } = require('child_process');
 
-const compileAndDeployWithTruffle = async () => {
+// ! Find a way to keep ganache-cli always open, like node server.js
+const startGanache = () => {
   return new Promise((resolve, reject) => {
-    exec('truffle compile && truffle migrate --network development', (error, stdout, stderr) => {
+    const ganache = spawn('ganache-cli', ['--port', '8545', '--networkId', '5777']); // Customize port and networkId as needed
+
+    ganache.stdout.on('data', (data) => {
+      console.log(`Ganache: ${data}`);
+      if (data.toString().includes('Listening on')) {
+        resolve(ganache); // Resolve with the ganache process
+      }
+    });
+  })};
+
+const deployContractWithExecFile = async () => {
+  return new Promise((resolve, reject) => {
+    execFile('truffle', ['migrate', '--network', 'development'], (error, stdout, stderr) => {
       if (error) {
         console.error(`Error during contract deployment: ${error.message}`);
         return reject(error);
       }
       if (stderr) {
         console.error(`stderr: ${stderr}`);
-        return reject(new Error(stderr));
       }
       console.log(`stdout: ${stdout}`);
       resolve(stdout);
@@ -19,21 +32,46 @@ const compileAndDeployWithTruffle = async () => {
   });
 };
 
-const deployProjectContract = async (targetAmount, startDate, endDate) => {
+// stop ganache
+const stopGanache = (ganache) => {
+  return new Promise((resolve, reject) => {
+    ganache.kill('SIGINT');
+    ganache.on('close', (code) => {
+      console.log(`Ganache process exited with code ${code}`);
+      resolve();
+    });
+  });
+};
+
+const deployProjectContract = async () => {
   try {
-    // Compile and deploy using Truffle
-    await compileAndDeployWithTruffle();
+    // Start Ganache
+    const ganache = await startGanache();
+
+    // Deploy using Truffle and execFile
+    await deployContractWithExecFile();
 
     // Read the contract ABI and address
     const contractPath = path.join(__dirname, '../build/contracts/MyToken.json');
     const contractData = JSON.parse(fs.readFileSync(contractPath, 'utf8'));
-    const contractABI = contractData.abi;
-    const contractAddress = contractData.networks['5777'].address; // Replace '5777' with your network ID
+    
+    const outputFilePath = path.join(__dirname, 'contractData.json');
+
+    // Store the contract data in a file for debugging purposes
+    fs.writeFile(outputFilePath, JSON.stringify(contractData, null, 2), (err) => {
+      if (err) {
+        console.error('Error writing to file', err);
+      } else {
+        console.log('Contract data saved to', outputFilePath);
+      }
+    });
+
+    const contractAddress = contractData.networks["1722053871845"].address;
 
     console.log(`Contract deployed at address: ${contractAddress}`);
 
-    // Here you would use the deployed contract's address in your application logic
-    // For example, storing it in a database or using it to interact with the contract
+    // Stop Ganache
+    await stopGanache(ganache);
 
     return contractAddress;
   } catch (error) {

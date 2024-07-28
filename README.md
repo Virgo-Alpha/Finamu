@@ -64,10 +64,12 @@ npm install -g ganache-cli
 truffle init
 ```
 
+Note: Use npm 18 or higher installed via nvm so as to access truffle.
+
 2. Install more depenndencies:
 ```bash
 npm init -y
-npm install dotenv web3 jwt-decode
+npm install dotenv web3 jwt-decode multer cookie-parser
 
 ```
 
@@ -86,6 +88,11 @@ npm install dotenv web3 jwt-decode
     ```bash
     npm install
     ```
+
+2.5 **Install the Confetti**:
+```bash
+npm install canvas-confetti
+```
 
 3. **Start the development server**:
 
