@@ -1,6 +1,6 @@
 const express = require('express');
 const { createProject, getProjects, updateProject, getPublicProjects } = require('../controllers/projectController');
-const Project = require('../models/Project'); // Model import
+const Project = require('../models/Project');
 const router = express.Router();
 const { authenticateToken, checkFilmmakerOwnership } = require('../middleware/auth');
 const upload = require('../middleware/upload');
@@ -67,25 +67,51 @@ router.get('/:id', authenticateToken, async (req, res) => {
   }
 });
 
-router.put('/:id', authenticateToken, updateProject);
-// router.get('/', authenticateToken, getProjects); // Get all projects for the current user
-// router.get('/public', authenticateToken, getPublicProjects); // Get all public projects
+router.put('/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.session.userId;
+    const project = await Project.findOne({ _id: id, owner: userId });
 
-router.post('/:id/invest', (req, res) => {
-  // const { id } = req.params;
-  // const { paymentMethod, tokenAmount, transactionDetails } = req.body;
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
 
-  // // Here, we would typically process the investment (save to database, etc.)
-  // console.log('Investment received:', {
-  //   projectId: id,
-  //   paymentMethod,
-  //   tokenAmount,
-  //   transactionDetails,
-  // });
+    if (project.status !== 'draft' && project.status !== 'private') {
+      return res.status(403).json({ message: 'Cannot edit this project' });
+    }
+
+    Object.assign(project, req.body);
+    await project.save();
+
+    res.status(200).json({ message: 'Project updated', project });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating project', error });
+  }
+});
+
+router.post('/:id/invest', authenticateToken, (req, res) => {
   console.log('Investment received:');
 
   // Always return success response because this is a mock API
   res.status(200).json({ message: 'Investment processed successfully.' });
+});
+
+router.delete('/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("Deleting project with id: " + id)
+    const userId = req.session.userId;
+    const project = await Project.findOneAndDelete({ _id: id, filmmaker: userId });
+
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    res.status(200).json({ message: 'Project deleted' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting project', error });
+  }
 });
 
 

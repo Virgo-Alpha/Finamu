@@ -1,18 +1,25 @@
 .project-detail {
-    margin-top: 20px;
-    padding-top: 50px;
-  }
-  
-  .description-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .description-header .btn {
-    margin-left: auto;
-  }
+  margin-top: 20px;
+  padding-top: 50px;
+}
 
-  .container {
-    color: black;
-  }
+.description-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.description-header .btn {
+  margin-left: auto;
+}
+
+.container {
+  color: black;
+}
+
+.project-poster {
+  max-width: 600px; /* Limit the image width */
+  max-height: 750px;
+  margin: 0 auto 20px; /* Center and add space below */
+  display: block;
+}

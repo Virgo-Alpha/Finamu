@@ -25,6 +25,8 @@ const NavBar = () => {
       <div className="container-fluid d-flex justify-content-between align-items-center">
         <span className="logo-text text-black font-weight-bold">Finamu</span>
         <ul className="d-flex list-unstyled mb-0 ml-auto">
+        <li><Link to="/dashboard" className="btn btn-primary mx-1">All Projects</Link></li>
+        <li><Link to="/user-projects" className="btn btn-primary mx-1">My Projects</Link></li>
           <li><Link to="/" className="btn btn-primary mx-1">My Investments</Link></li>
           <li><Link to="/projects/create" className="btn btn-primary mx-1">Create Project</Link></li>
           <li><Link to="/faq" className="btn btn-primary mx-1">FAQs</Link></li>

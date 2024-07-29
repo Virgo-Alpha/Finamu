@@ -1,0 +1,64 @@
+.user-projects-page {
+    background-color: #000;
+    color: #fff;
+    min-height: 100vh;
+  }
+  
+  .content-container {
+    display: flex;
+    padding: 20px;
+    padding-top: 100px;
+  }
+  
+  .projects-column {
+    width: 80%;
+    padding: 20px;
+    margin-left: 20px;
+  }
+  
+  .projects-column h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+  
+  .project-card {
+    display: flex;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 10px;
+  }
+  
+  .project-poster {
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .project-details {
+    margin-left: 20px;
+  }
+  
+  .project-details h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  
+  .project-details p {
+    margin: 5px 0;
+  }
+  
+  .project-details button {
+    margin-right: 10px;
+    background-color: #444;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .project-details button:disabled {
+    background-color: #555;
+  }
+  

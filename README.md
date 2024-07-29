@@ -89,9 +89,9 @@ npm install dotenv web3 jwt-decode multer cookie-parser
     npm install
     ```
 
-2.5 **Install the Confetti**:
+2.5 **Install the required libraries**:
 ```bash
-npm install canvas-confetti
+npm install canvas-confetti --save disqus-react
 ```
 
 3. **Start the development server**:
