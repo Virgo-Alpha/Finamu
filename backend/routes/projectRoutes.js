@@ -71,4 +71,22 @@ router.put('/:id', authenticateToken, updateProject);
 // router.get('/', authenticateToken, getProjects); // Get all projects for the current user
 // router.get('/public', authenticateToken, getPublicProjects); // Get all public projects
 
+router.post('/:id/invest', (req, res) => {
+  // const { id } = req.params;
+  // const { paymentMethod, tokenAmount, transactionDetails } = req.body;
+
+  // // Here, we would typically process the investment (save to database, etc.)
+  // console.log('Investment received:', {
+  //   projectId: id,
+  //   paymentMethod,
+  //   tokenAmount,
+  //   transactionDetails,
+  // });
+  console.log('Investment received:');
+
+  // Always return success response because this is a mock API
+  res.status(200).json({ message: 'Investment processed successfully.' });
+});
+
+
 module.exports = router;

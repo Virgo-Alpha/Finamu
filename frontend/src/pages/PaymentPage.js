@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
 import NavBar from '../components/SignedInNav';
@@ -7,10 +7,27 @@ import '../assets/css/PaymentPage.css';
 
 const PaymentPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [project, setProject] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState('');
   const [tokenAmount, setTokenAmount] = useState(0);
   const [transactionDetails, setTransactionDetails] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [shareMessage, setShareMessage] = useState('');
+
+  useEffect(() => {
+    // Fetch project details based on the project ID
+    const fetchProject = async () => {
+      try {
+        const response = await axios.get(`/api/projects/${id}`);
+        setProject(response.data.project);
+        console.log('Project:', response.data.project);
+      } catch (error) {
+        console.error('Error fetching project details:', error);
+      }
+    };
+    fetchProject();
+  }, [id]);
 
   const handlePaymentOptionChange = (e) => {
     setPaymentMethod(e.target.value);
@@ -33,29 +50,42 @@ const PaymentPage = () => {
         transactionDetails,
       });
 
-    //   // Trigger confetti animation
-    //   confetti({
-    //     particleCount: 100,
-    //     spread: 70,
-    //     origin: { y: 0.6 },
-    //   });
+      // Trigger confetti animation
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
 
       // Prepare Twitter share message
-      const twitterMessage = `I just invested in project ${project.name} by ${project.filmmaker.firstName} ${project.filmmaker.lastName}. Feeling great to be on this journey! Want to start your film investment journey too? Visit Finamu.com today! #film #investment #Finamu`;
+      const message = `I just invested in ${project.name} by ${project.filmmaker.firstName} ${project.filmmaker.lastName}. Feeling great to be on this journey! Want to start your film investment journey too? Visit Finamu.com today! #film #investment #Finamu`;
+      setShareMessage(message);
 
-      // Redirect to Twitter share
-      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterMessage)}`;
-      window.open(twitterUrl, '_blank');
+      // Show pop-up
+      setShowPopup(true);
     } catch (error) {
       console.error('Error processing investment:', error);
     }
   };
 
+  const handleShareNow = () => {
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareMessage)}`;
+    window.open(twitterUrl, '_blank');
+    navigate('/dashboard');
+  };
+
+  const handleMaybeLater = () => {
+    setShowPopup(false);
+    navigate('/dashboard');
+  };
+
+  if (!project) return <p>Loading...</p>;
+
   return (
     <div className="container">
       <NavBar />
       <div className="payment-page">
-        <h2>Invest in {project ? project.name : 'Project'}</h2>
+        <h2>Invest in {project.name}</h2>
         <div>
           <label htmlFor="payment-method">Choose Payment Method:</label>
           <select id="payment-method" value={paymentMethod} onChange={handlePaymentOptionChange}>
@@ -66,7 +96,7 @@ const PaymentPage = () => {
             <option value="crypto">Cryptocurrency</option>
           </select>
         </div>
-        
+
         {paymentMethod === 'credit_card' && (
           <div className="payment-details">
             <h3>Enter Credit Card Information</h3>
@@ -75,7 +105,7 @@ const PaymentPage = () => {
             <input type="text" name="cvv" placeholder="CVV" onChange={handleTransactionDetailsChange} />
           </div>
         )}
-        
+
         {paymentMethod === 'bank_transfer' && (
           <div className="payment-details">
             <h3>Bank Transfer Details</h3>
@@ -84,7 +114,7 @@ const PaymentPage = () => {
             <input type="text" name="transactionCode" placeholder="Enter Transaction Code" onChange={handleTransactionDetailsChange} />
           </div>
         )}
-        
+
         {paymentMethod === 'mobile_money' && (
           <div className="payment-details">
             <h3>Mobile Money Details</h3>
@@ -92,7 +122,7 @@ const PaymentPage = () => {
             <input type="text" name="transactionCode" placeholder="Enter Transaction Code" onChange={handleTransactionDetailsChange} />
           </div>
         )}
-        
+
         {paymentMethod === 'crypto' && (
           <div className="payment-details">
             <h3>Cryptocurrency Details</h3>
@@ -108,6 +138,24 @@ const PaymentPage = () => {
         </div>
 
         <button className="btn btn-primary" onClick={handleInvest}>Invest</button>
+
+        {showPopup && (
+            <div className="popup-overlay">
+                <div className="popup-content">
+                <h2>Share Your Investment!</h2>
+                <textarea
+                    value={shareMessage}
+                    onChange={(e) => setShareMessage(e.target.value)}
+                    className="share-message"
+                />
+                <div className="popup-buttons">
+                    <button className="btn btn-primary" onClick={handleShareNow}>Share Now</button>
+                    <button className="btn btn-secondary" onClick={handleMaybeLater}>Maybe Later</button>
+                </div>
+                </div>
+            </div>
+            )}
+
       </div>
     </div>
   );

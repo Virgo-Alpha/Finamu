@@ -1,9 +1,10 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import NavBar from '../components/SignedInNav';
 import '../assets/css/ProjectDetail.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const ProjectDetail = () => {
   const { id } = useParams();
@@ -21,6 +22,12 @@ const ProjectDetail = () => {
     fetchProject();
   }, [id]);
 
+  const navigate = useNavigate();
+
+  const handleInvestClick = () => {
+    navigate(`/projects/${id}/invest`, { state: { projectName: project.name, filmmakerfirstName: project.filmmaker.firstName, filmmakerlastName: project.filmmaker.lastName } });
+  };
+
   if (!project) return <p>Loading...</p>;
 
   return (
@@ -31,7 +38,7 @@ const ProjectDetail = () => {
         <h1>{project.name} <small>by {project.filmmaker.firstName} {project.filmmaker.lastName}</small></h1>
         <div className="description-header">
           <h3 style={{ display: 'inline', fontWeight: 'bold', textDecoration: 'underline' }}>Description</h3>
-          <Link to={`/projects/${id}/invest`} className="btn btn-primary float-end">Invest</Link>
+          <button onClick={handleInvestClick}>Invest</button>
         </div>
         <p>{project.description}</p>
       </div>

@@ -28,7 +28,6 @@ const NavBar = () => {
           <li><Link to="/" className="btn btn-primary mx-1">My Investments</Link></li>
           <li><Link to="/projects/create" className="btn btn-primary mx-1">Create Project</Link></li>
           <li><Link to="/faq" className="btn btn-primary mx-1">FAQs</Link></li>
-          <li><Link to="/contact" className="btn btn-primary mx-1">Contact Us</Link></li>
           <li><button onClick={handleLogout} className="btn btn-primary mx-1">Log Out</button></li>
         </ul>
       </div>
