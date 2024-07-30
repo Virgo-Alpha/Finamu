@@ -91,7 +91,7 @@ npm install dotenv web3 jwt-decode multer cookie-parser
 
 2.5 **Install the required libraries**:
 ```bash
-npm install canvas-confetti --save disqus-react recharts react-router-dom
+npm install canvas-confetti --save disqus-react recharts react-router-dom react-plotly.js plotly.js
 ```
 
 3. **Start the development server**:

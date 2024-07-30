@@ -12,6 +12,7 @@ import PaymentPage from './pages/PaymentPage';
 import UserProjects from './pages/UserProjects'
 import EditProject from './pages/EditProject';
 import MyInvestments from './pages/MyInvestments';
+import FAQPage  from './pages/FAQ';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/projects/:id/invest" element={<PaymentPage />} />
         <Route path="/projects/:id/edit" element={<EditProject />} />
         <Route path="/my-investments" element={<MyInvestments />} />
+        <Route path="/faq" element={<FAQPage />} />
       </Routes>
     </Router>
   );
