@@ -71,21 +71,31 @@ router.put('/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.session.userId;
-    const project = await Project.findOne({ _id: id, owner: userId });
+    const project = await Project.findOne({ _id: id, filmmaker: userId });
 
     if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }
 
+    // Check if project status allows editing
     if (project.status !== 'draft' && project.status !== 'private') {
       return res.status(403).json({ message: 'Cannot edit this project' });
     }
 
-    Object.assign(project, req.body);
+    // Loop through req.body to update only changed fields
+    for (let [key, value] of Object.entries(req.body)) {
+      // Check if the field exists in the project and has changed
+      if (project[key] !== undefined && project[key] !== value) {
+        project[key] = value;
+      }
+    }
+
+    // Save the updated project
     await project.save();
 
     res.status(200).json({ message: 'Project updated', project });
   } catch (error) {
+    console.error('Error updating project:', error);
     res.status(500).json({ message: 'Error updating project', error });
   }
 });

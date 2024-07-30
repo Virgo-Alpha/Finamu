@@ -11,6 +11,7 @@ import ProjectDetail from './pages/ProjectDetail';
 import PaymentPage from './pages/PaymentPage';
 import UserProjects from './pages/UserProjects'
 import EditProject from './pages/EditProject';
+import MyInvestments from './pages/MyInvestments';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/user-projects" element={<UserProjects />} />
         <Route path="/projects/:id/invest" element={<PaymentPage />} />
         <Route path="/projects/:id/edit" element={<EditProject />} />
+        <Route path="/my-investments" element={<MyInvestments />} />
       </Routes>
     </Router>
   );

@@ -4,7 +4,6 @@ import axios from 'axios';
 import NavBar from '../components/SignedInNav';
 import Footer from '../components/Footer';
 import '../assets/css/Dashboard.css';
-import Cookies from 'js-cookie';
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);

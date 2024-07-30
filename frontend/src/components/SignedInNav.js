@@ -27,7 +27,7 @@ const NavBar = () => {
         <ul className="d-flex list-unstyled mb-0 ml-auto">
         <li><Link to="/dashboard" className="btn btn-primary mx-1">All Projects</Link></li>
         <li><Link to="/user-projects" className="btn btn-primary mx-1">My Projects</Link></li>
-          <li><Link to="/" className="btn btn-primary mx-1">My Investments</Link></li>
+          <li><Link to="/my-investments" className="btn btn-primary mx-1">My Investments</Link></li>
           <li><Link to="/projects/create" className="btn btn-primary mx-1">Create Project</Link></li>
           <li><Link to="/faq" className="btn btn-primary mx-1">FAQs</Link></li>
           <li><button onClick={handleLogout} className="btn btn-primary mx-1">Log Out</button></li>

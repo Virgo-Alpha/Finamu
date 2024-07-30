@@ -7,14 +7,14 @@ import ProjectForm from '../components/ProjectForm';
 import '../assets/css/CreateProject.css';
 
 const EditProject = () => {
-  const { projectId } = useParams();
+  const { id } = useParams();
   const [projectData, setProjectData] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjectData = async () => {
       try {
-        const response = await axios.get(`/api/projects/${projectId}`);
+        const response = await axios.get(`/api/projects/${id}`);
         setProjectData(response.data.project);
       } catch (error) {
         console.error('Error fetching project data:', error);
@@ -22,7 +22,7 @@ const EditProject = () => {
     };
 
     fetchProjectData();
-  }, [projectId]);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,8 +65,12 @@ const EditProject = () => {
     formData.append('targetAmount', projectData.targetAmount);
     formData.append('smallestTokenAmount', projectData.smallestTokenAmount);
     formData.append('country', projectData.country);
-    formData.append('projectStartDate', projectData.projectStartDate);
-    formData.append('projectEndDate', projectData.projectEndDate);
+    const formattedStartDate = new Date(projectData.projectStartDate).toISOString();
+    const formattedEndDate = new Date(projectData.projectEndDate).toISOString();
+
+    formData.append('projectStartDate', formattedStartDate);
+    formData.append('projectEndDate', formattedEndDate);
+
     formData.append('tags', projectData.tags);
     formData.append('status', projectData.status);
     formData.append('risk', projectData.risk);
@@ -84,7 +88,7 @@ const EditProject = () => {
     }
 
     try {
-      const response = await axios.put(`/api/projects/${projectId}`, formData, {
+      const response = await axios.put(`/api/projects/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
