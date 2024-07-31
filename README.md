@@ -69,7 +69,7 @@ Note: Use npm 18 or higher installed via nvm so as to access truffle.
 2. Install more depenndencies:
 ```bash
 npm init -y
-npm install dotenv web3 jwt-decode multer cookie-parser
+npm install dotenv web3 jwt-decode multer cookie-parser --save-dev jest supertest mongodb-memory-server
 
 ```
 
@@ -134,6 +134,11 @@ sudo apt install mongoose
     ```bash
     npm start
     ```
+
+5. **Test the models**
+```bash
+npm test
+```
 
 ## Usage
 

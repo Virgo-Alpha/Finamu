@@ -51,12 +51,12 @@ projectSchema.pre('validate', function (next) {
   if (this.isNew || this.isModified('targetAmount') || this.isModified('smallestTokenAmount')) {
     this.numberOfTokens = Math.ceil(this.targetAmount / this.smallestTokenAmount / 10) * 10;
 
-    console.log('Number of tokens: ' + this.targetAmount);
-    console.log('Smallest token amount: ' + this.smallestTokenAmount);
-    console.log('Target Amount: ' + this.targetAmount)
+    // console.log('Number of tokens: ' + this.targetAmount);
+    // console.log('Smallest token amount: ' + this.smallestTokenAmount);
+    // console.log('Target Amount: ' + this.targetAmount)
 
-    console.log('Type of targetAmount:', typeof this.targetAmount);
-    console.log('Type of smallestTokenAmount:', typeof this.smallestTokenAmount);
+    // console.log('Type of targetAmount:', typeof this.targetAmount);
+    // console.log('Type of smallestTokenAmount:', typeof this.smallestTokenAmount);
 
   }
   next();

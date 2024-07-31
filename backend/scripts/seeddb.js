@@ -35,13 +35,11 @@ const newUsers = [
   
       // Insert new users
       const users = await User.insertMany(hashedUsers);
-      console.log('New users created:', users);
-  
-      console.log('Database reset successful.');
+      console.log('New users created.');
       
       // Display all users in the platform
       const allUsers = await User.find({});
-      console.log('All users:', allUsers);
+      // console.log('All users:', allUsers);
   
       mongoose.connection.close();
     } catch (err) {
@@ -588,7 +586,7 @@ async function createProjects(users) {
       });
   
       await Project.insertMany(projects);
-      console.log('New projects created:', projects);
+      console.log('New projects created');
     } catch (err) {
       console.error('Error during project creation:', err);
     }
@@ -613,7 +611,7 @@ async function main() {
   
       // Insert new users
       const users = await User.insertMany(hashedUsers);
-      console.log('New users created:', users);
+      console.log('New users created');
   
       // Create and save new projects
       await createProjects(users);
