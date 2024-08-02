@@ -61,6 +61,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
+app.get('/api/test', (req, res) => {
+    res.json({ message: 'API is working' });
+});
+
 // Define Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
