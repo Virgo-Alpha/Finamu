@@ -19,6 +19,7 @@ services:
       - finamu-network
     environment:
       - MONGO_URI=mongodb://mongo:27017/finamu
+    command: npm start
 
   mongo:
     image: mongo:latest
