@@ -100,10 +100,10 @@ const updateProject = async (req, res) => {
 
     const project = await Project.findById(projectId).populate('filmmaker', 'firstName lastName');
 
-    if (status === 'public' && !project.contractAddress) {
-      // Deploy smart contract if not already done and project is being made public
-      project.contractAddress = await deployProjectContract(targetAmount, projectStartDate, projectEndDate);
-    }
+    // if (status === 'public' && !project.contractAddress) {
+    //   // Deploy smart contract if not already done and project is being made public
+    //   project.contractAddress = await deployProjectContract(targetAmount, projectStartDate, projectEndDate);
+    // }
 
     // Update fields
     project.poster = poster;
