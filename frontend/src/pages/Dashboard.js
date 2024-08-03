@@ -114,7 +114,7 @@ const Dashboard = () => {
             return (
               <div key={project._id} className="project-item">
                 <div className="project-poster">
-                  <img src={`http://35.175.218.42/${project.poster}`} alt={project.name} />
+                  <img src={`http://3.232.6.164/${project.poster}`} alt={project.name} />
                 </div>
                 <div className="project-details">
                 <Link to={`/projects/${project._id}`}><h2>{project.name} by {filmmakerName}</h2></Link>

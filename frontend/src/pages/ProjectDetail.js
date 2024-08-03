@@ -34,7 +34,7 @@ const ProjectDetail = () => {
       <NavBar />
       <div className="project-detail">
         <img
-          src={`http://localhost:5000/${project.poster}`}
+          src={`http://3.232.6.164/${project.poster}`}
           alt={project.name}
           className="img-fluid project-poster"
         />
