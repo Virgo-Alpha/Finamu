@@ -33,11 +33,11 @@ const createProject = async (req, res) => {
     console.log("Poster: " + poster)
 
     let contractAddress = '';
-    if (status === 'public') {
-      // Deploy smart contract if the project is being made public
-      contractAddress = await deployProjectContract(targetAmount, projectStartDate, projectEndDate);
-    }
-    console.log('contract address: ' + contractAddress)
+    // if (status === 'public') {
+    //   // Deploy smart contract if the project is being made public
+    //   contractAddress = await deployProjectContract(targetAmount, projectStartDate, projectEndDate);
+    // }
+    // console.log('contract address: ' + contractAddress)
 
     const project = new Project({
       poster,
