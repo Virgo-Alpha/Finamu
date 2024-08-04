@@ -46,7 +46,7 @@ const UserProjects = () => {
             {projects.map((project) => (
               <li key={project._id}>
                 <div className="project-card">
-                  <img src={`http://3.232.6.164/${project.poster}`} alt={project.name} className="project-poster" />
+                  <img src={`https://finamu.io/${project.poster}`} alt={project.name} className="project-poster" />
                   <div className="project-details">
                     <h2>{project.name}</h2>
                     <p>{project.description}</p>
