@@ -33,11 +33,11 @@ const createProject = async (req, res) => {
     console.log("Poster: " + poster)
 
     let contractAddress = '';
-    // if (status === 'public') {
-    //   // Deploy smart contract if the project is being made public
-    //   contractAddress = await deployProjectContract(targetAmount, projectStartDate, projectEndDate);
-    // }
-    // console.log('contract address: ' + contractAddress)
+    if (status === 'public') {
+      // Deploy smart contract if the project is being made public
+      contractAddress = await deployProjectContract(targetAmount, projectStartDate, projectEndDate);
+    }
+    console.log('contract address: ' + contractAddress)
 
     const project = new Project({
       poster,
@@ -64,10 +64,10 @@ const createProject = async (req, res) => {
     console.log("We saved the project")
 
     // ! Create project tokens
-    // await createProjectTokens(project._id, targetAmount, smallestTokenAmount, projectStartDate, projectEndDate);
+    await createProjectTokens(project._id, targetAmount, smallestTokenAmount, projectStartDate, projectEndDate);
 
     // Generate contract
-    // const contract = await generateContract(project, req.user, req.body.investor);
+    const contract = await generateContract(project, req.user, req.body.investor);
     // Save or send the contract to the user (implementation depends on the requirements)
 
     res.status(201).json({ message: 'Project created successfully', project });
@@ -100,10 +100,10 @@ const updateProject = async (req, res) => {
 
     const project = await Project.findById(projectId).populate('filmmaker', 'firstName lastName');
 
-    // if (status === 'public' && !project.contractAddress) {
-    //   // Deploy smart contract if not already done and project is being made public
-    //   project.contractAddress = await deployProjectContract(targetAmount, projectStartDate, projectEndDate);
-    // }
+    if (status === 'public' && !project.contractAddress) {
+      // Deploy smart contract if not already done and project is being made public
+      project.contractAddress = await deployProjectContract(targetAmount, projectStartDate, projectEndDate);
+    }
 
     // Update fields
     project.poster = poster;

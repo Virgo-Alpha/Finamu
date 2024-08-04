@@ -114,7 +114,7 @@ const Dashboard = () => {
             return (
               <div key={project._id} className="project-item">
                 <div className="project-poster">
-                  <img src={`https://finamu.io/${project.poster}`} alt={project.name} />
+                  <img src={`http://localhost:5000/${project.poster}`} alt={project.name} />
                 </div>
                 <div className="project-details">
                 <Link to={`/projects/${project._id}`}><h2>{project.name} by {filmmakerName}</h2></Link>

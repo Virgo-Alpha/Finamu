@@ -34,7 +34,7 @@ const ProjectDetail = () => {
       <NavBar />
       <div className="project-detail">
         <img
-          src={`https://finamu.io/${project.poster}`}
+          src={`http://localhost:5000/${project.poster}`}
           alt={project.name}
           className="img-fluid project-poster"
         />

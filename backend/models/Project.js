@@ -1,10 +1,5 @@
 const mongoose = require('mongoose');
 
-// TODO: 1. Add amount contributed
-// Amount pending will be the target minus amount contributed
-// TODO 2: Make Poster an image upload
-// TODO 3. Make contract and tokens
-
 const contributionDetailsSchema = new mongoose.Schema({
   type: {
     type: String,
@@ -50,14 +45,6 @@ const projectSchema = new mongoose.Schema({
 projectSchema.pre('validate', function (next) {
   if (this.isNew || this.isModified('targetAmount') || this.isModified('smallestTokenAmount')) {
     this.numberOfTokens = Math.ceil(this.targetAmount / this.smallestTokenAmount / 10) * 10;
-
-    // console.log('Number of tokens: ' + this.targetAmount);
-    // console.log('Smallest token amount: ' + this.smallestTokenAmount);
-    // console.log('Target Amount: ' + this.targetAmount)
-
-    // console.log('Type of targetAmount:', typeof this.targetAmount);
-    // console.log('Type of smallestTokenAmount:', typeof this.smallestTokenAmount);
-
   }
   next();
 });
